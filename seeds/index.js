@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Campground = require("../models/campground");
 const cities = require("./cities");
-const { places, descriptors } = require("./seedHelper");
+const { places, descriptors, descriptions } = require("./seedHelper");
 
 mongoose
     .connect("mongodb://127.0.0.1:27017/yelp-camp")
@@ -20,6 +20,9 @@ const seedDB = async () => {
         const camp = new Campground({
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${randomArr(descriptors)} ${randomArr(places)}`,
+            image: `https://picsum.photos/400?random=${Math.random()}`,
+            description: `${randomArr(descriptions)}`,
+            price: Math.floor(Math.random() * 60) + 5,
         });
         await camp.save();
     }

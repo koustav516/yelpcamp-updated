@@ -20,8 +20,10 @@
   "homepage": "https://github.com/koustav516/yelpcamp-updated#readme",
   "dependencies": {
     "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
     "method-override": "^3.0.0",
-    "mongoose": "^8.15.1"
+    "mongoose": "^8.15.1",
+    "morgan": "^1.10.0"
   }
 }

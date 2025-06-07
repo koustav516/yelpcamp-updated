@@ -42,3 +42,26 @@ module.exports.places = [
     "Cliffs",
     "Hollow",
 ];
+
+module.exports.descriptions = [
+    "A serene place surrounded by whispering pines and gentle streams.",
+    "Perfect for stargazing and quiet nights under the vast open sky.",
+    "A hidden gem in the heart of the wilderness, far from city lights.",
+    "Camp among ancient trees where the air smells of moss and adventure.",
+    "Wake up to the sound of birds and the rustle of leaves.",
+    "A peaceful retreat nestled beside a flowing creek.",
+    "Rugged terrain and raw beauty await the true explorer.",
+    "Ideal for family camping with scenic trails nearby.",
+    "Set up your tent on the edge of a breathtaking canyon.",
+    "Sunsets here light up the sky in every shade of orange and red.",
+    "An ideal spot for fishing, hiking, and wildlife watching.",
+    "Remote and rustic, perfect for getting off the grid.",
+    "Gentle waves lap at the shore just beyond your tent.",
+    "Breathe in crisp mountain air and camp under towering evergreens.",
+    "A tranquil escape from the hustle of everyday life.",
+    "Winds carry the scent of wildflowers across the open fields.",
+    "A popular stop for adventurers exploring the backcountry.",
+    "Perfect for a weekend getaway with plenty of room to roam.",
+    "Watch fog roll in from the sea as you sip morning coffee.",
+    "Campfire stories come to life in this quiet, cozy spot.",
+];
