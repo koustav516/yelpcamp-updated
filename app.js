@@ -4,10 +4,10 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
-const Joi = require("joi");
 const Campground = require("./models/campground");
 const catchAsyncError = require("./utils/catchAsyncError");
 const ExpressError = require("./utils/ExpressError");
+const { campgroundSchema } = require("./schemas");
 
 const app = express();
 
@@ -29,6 +29,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(morgan("tiny")); //logger
 
+const validateCampground = (req, res, next) => {
+    const { error } = campgroundSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+};
+
 app.get("/", (req, res) => {
     res.render("home");
 });
@@ -47,21 +57,8 @@ app.get("/campgrounds/new", (req, res) => {
 
 app.post(
     "/campgrounds",
+    validateCampground,
     catchAsyncError(async (req, res, next) => {
-        const campgroundSchema = Joi.object({
-            campground: Joi.object({
-                name: Joi.string().required(),
-                price: Joi.number().required().min(0),
-                description: Joi.string().required(),
-                image: Joi.string().required(),
-                location: Joi.string().required(),
-            }).required(),
-        });
-        const { error } = campgroundSchema.validate(req.body);
-        if (error) {
-            const msg = error.details.map((el) => el.message).join(",");
-            throw new ExpressError(msg, 400);
-        }
         const campground = new Campground(req.body.campground);
         await campground.save();
         res.redirect(`/campgrounds/${campground._id}`);
@@ -88,6 +85,7 @@ app.get(
 
 app.put(
     "/campgrounds/:id",
+    validateCampground,
     catchAsyncError(async (req, res) => {
         const { id } = req.params;
         const campground = await Campground.findByIdAndUpdate(id, {
