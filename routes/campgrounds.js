@@ -20,8 +20,8 @@ router
     .get(catchAsyncError(index))
     .post(
         isLoggedIn,
-        upload.array("image"),
         validateCampground,
+        upload.array("image"),
         catchAsyncError(createNewCampground)
     );
 
@@ -34,6 +34,7 @@ router
         isLoggedIn,
         isAuthor,
         validateCampground,
+        upload.array("image"),
         catchAsyncError(editCampground)
     )
     .delete(isLoggedIn, isAuthor, catchAsyncError(deleteCampground));
