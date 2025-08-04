@@ -23,6 +23,10 @@ const seedDB = async () => {
             title: `${randomArr(descriptors)} ${randomArr(places)}`,
             description: `${randomArr(descriptions)}`,
             price: Math.floor(Math.random() * 60) + 5,
+            geometry: {
+                type: "Point",
+                coordinates: [-113.13, 47.002],
+            },
             images: [
                 {
                     url: "https://res.cloudinary.com/dzgnujkjx/image/upload/v1754129823/YelpCamp/opbtktt41xq5mncsx0li.jpg",
