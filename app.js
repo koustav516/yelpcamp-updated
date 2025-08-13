@@ -12,6 +12,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const MongoStore = require("connect-mongo")(session);
 
 const ExpressError = require("./utils/ExpressError");
 const sanitizeV5 = require("./utils/mongoSanitizeV5");
@@ -25,9 +26,11 @@ const User = require("./models/user");
 const app = express();
 
 const PORT = 3000;
+const prodDbUrl = process.env.DB_URL;
+const localDbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
 
 mongoose
-    .connect("mongodb://127.0.0.1:27017/yelp-camp")
+    .connect(localDbUrl)
     .then(() => console.log("Db Connected!"))
     .catch((err) => {
         console.log("Db Connectoion Error");
@@ -45,7 +48,18 @@ app.use(morgan("tiny")); //logger
 app.use(express.static(path.join(__dirname, "public")));
 app.use(sanitizeV5({ replaceWith: "_" }));
 
+const store = new MongoStore({
+    url: localDbUrl,
+    secret: "thisshouldbeasecret",
+    touchAfter: 24 * 60 * 60, // 1 day timing
+});
+
+store.on("error", function (e) {
+    console.log("Session store error: ", e);
+});
+
 const sessionConfig = {
+    store,
     name: "yelpcampsession",
     secret: "thisshouldbeasecret",
     resave: false,
