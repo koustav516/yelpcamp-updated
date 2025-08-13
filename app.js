@@ -46,6 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(sanitizeV5({ replaceWith: "_" }));
 
 const sessionConfig = {
+    name: "yelpcampsession",
     secret: "thisshouldbeasecret",
     resave: false,
     saveUninitialized: true,
