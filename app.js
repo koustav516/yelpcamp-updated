@@ -14,6 +14,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
 const ExpressError = require("./utils/ExpressError");
+const sanitizeV5 = require("./utils/mongoSanitizeV5");
 
 const campgroundsRoutes = require("./routes/campgrounds");
 const reviewsRoutes = require("./routes/review");
@@ -34,6 +35,7 @@ mongoose
     });
 
 app.engine("ejs", ejsMate);
+app.set("query parser", "extended");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -41,6 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(morgan("tiny")); //logger
 app.use(express.static(path.join(__dirname, "public")));
+app.use(sanitizeV5({ replaceWith: "_" }));
 
 const sessionConfig = {
     secret: "thisshouldbeasecret",
@@ -63,6 +66,7 @@ passport.serializeUser(User.serializeUser()); //To get user into the session
 passport.deserializeUser(User.deserializeUser()); //To get user out of the session
 
 app.use((req, res, next) => {
+    console.log(req.query);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
