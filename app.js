@@ -25,12 +25,12 @@ const User = require("./models/user");
 
 const app = express();
 
-const PORT = 3000;
-const prodDbUrl = process.env.DB_URL;
-const localDbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
+const PORT = process.env.PORT || 3000;
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/yelp-camp";
+const secret = process.env.SECRET || "thisshouldbeasecret";
 
 mongoose
-    .connect(localDbUrl)
+    .connect(dbUrl)
     .then(() => console.log("Db Connected!"))
     .catch((err) => {
         console.log("Db Connectoion Error");
@@ -49,8 +49,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(sanitizeV5({ replaceWith: "_" }));
 
 const store = new MongoStore({
-    url: localDbUrl,
-    secret: "thisshouldbeasecret",
+    url: dbUrl,
+    secret,
     touchAfter: 24 * 60 * 60, // 1 day timing
 });
 
@@ -61,7 +61,7 @@ store.on("error", function (e) {
 const sessionConfig = {
     store,
     name: "yelpcampsession",
-    secret: "thisshouldbeasecret",
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
