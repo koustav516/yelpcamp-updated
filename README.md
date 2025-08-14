@@ -45,10 +45,15 @@ cd yelpcamp
 ### 2 Install dependencies
 npm install
 
-### 3 Create a .env file in the project root and add following keys:
+### Environment Variables
+
+Create a `.env` file in the root directory of the project and add the following:
+
+```env
 DB_URL=mongodb+srv://<username>:<password>@cluster0.mongodb.net/yelpcamp
 MAPBOX_TOKEN=your_mapbox_token
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_KEY=your_cloudinary_key
 CLOUDINARY_SECRET=your_cloudinary_secret
-SECRET=your_secret
+SESSION_SECRET=your_secret
+
